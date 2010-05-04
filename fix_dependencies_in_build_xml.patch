@@ -1,0 +1,37 @@
+--- custom-build.xml.orig	2010-02-17 19:14:51.888382184 -0500
++++ custom-build.xml	2010-02-17 19:15:49.675385072 -0500
+@@ -120,12 +120,11 @@
+             <arg value="SRC_DIR=${jni.src.dir}"/>
+             <arg value="JNI_DIR=${jni.src.dir}"/>
+             <arg value="BUILD_DIR=${jni.build.dir}"/>
+             <arg value="CPU=${platform.cpu}"/>
+             <arg value="VERSION=${jffi.version.major}.${jffi.version.minor}"/>
+-            <arg value="USE_SYSTEM_LIBFFI=${use.system.libffi}"/>
+-            <!-- <arg value="USE_SYSTEM_LIBFFI=0"/> -->
++            <arg value="USE_SYSTEM_LIBFFI=1"/>
+             <arg value="-f"/>
+             <arg value="${jni.GNUmakefile}"/>
+         </exec>
+ 
+     </target>
+@@ -190,20 +189,10 @@
+     </target>
+     <target name="-assemble-native-jar" depends="-init-vars, -build-platform-jar">
+         <jar jarfile="${native.jar}" index="true" update="true" duplicate="preserve"
+             filesetmanifest="skip">
+             <zipfileset src="${dist.dir}/${platform}.jar"/>
+-            <zipfileset src="archive/Darwin.jar"/>
+-            <zipfileset src="archive/i386-Windows.jar"/>
+-            <zipfileset src="archive/i386-Linux.jar"/>
+-            <zipfileset src="archive/i386-SunOS.jar"/>
+-            <zipfileset src="archive/x86_64-Linux.jar"/>
+-            <zipfileset src="archive/x86_64-SunOS.jar"/>
+-            <zipfileset src="archive/s390x-Linux.jar"/>
+-            <zipfileset src="archive/sparc-SunOS.jar"/>
+-            <zipfileset src="archive/sparcv9-SunOS.jar"/>
+-            <zipfileset src="archive/ppc-AIX.jar"/>
+         </jar>
+     </target>
+     <target name="-archive-platform-jar" depends="-build-platform-jar">
+         <copy file="${dist.dir}/${platform}.jar" todir="archive" flatten="true"/>
+     </target>
