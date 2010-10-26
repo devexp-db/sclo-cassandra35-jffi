@@ -1,9 +1,9 @@
-%global git_commit bbb81f1
+%global git_commit e0d10e9
 %global cluster wmeissner
 
 Name:    jffi
-Version: 0.6.5
-Release: 4%{?dist}
+Version: 1.0.2
+Release: 1%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{name}
 mkdir -p $RPM_BUILD_ROOT%{_jnidir}
 
-cp build/jni/libjffi-0.6.so $RPM_BUILD_ROOT%{_libdir}/%{name}/
+cp build/jni/libjffi-1.0.so $RPM_BUILD_ROOT%{_libdir}/%{name}/
 cp dist/jffi-complete.jar $RPM_BUILD_ROOT%{_libdir}/%{name}/%{name}-%{version}.jar
 ln -s %{name}-%{version}.jar $RPM_BUILD_ROOT%{_libdir}/%{name}/%{name}.jar
 ln -s %{_libdir}/%{name}/%{name}-%{version}.jar $RPM_BUILD_ROOT%{_jnidir}/%{name}.jar
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_javadocdir}/jffi
 
 %changelog
+* Mon Oct 25 2010  <mmorsi@redhat.com> - 1.0.2-1
+- Updated to most recent upstream release
+
 * Wed Apr 14 2010  <mmorsi@redhat.com> - 0.6.5-4
 - added Mamoru Tasaka's fix for ppc{,64} to prep
 
