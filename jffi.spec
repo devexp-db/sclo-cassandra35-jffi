@@ -3,7 +3,7 @@
 
 Name:    jffi
 Version: 1.0.2
-Release: 1%{?dist}
+Release: 1.1%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -20,8 +20,8 @@ BuildRequires: jpackage-utils
 BuildRequires: libffi-devel
 BuildRequires: ant
 BuildRequires: ant-nodeps
-BuildRequires(check): ant-junit
-BuildRequires(check): junit4
+BuildRequires: ant-junit
+BuildRequires: junit4
 Requires: java >= 1:1.6.0
 Requires: jpackage-utils
 
@@ -97,6 +97,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_javadocdir}/jffi
 
 %changelog
+* Tue May 17 2011 Karsten Hopp <karsten@redhat.com> 1.0.2-1.1
+- change BR(check) into real buildrequirements as the latest rpm 
+  doesn't support this anymore
+
 * Mon Oct 25 2010  <mmorsi@redhat.com> - 1.0.2-1
 - Updated to most recent upstream release
 
