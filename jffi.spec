@@ -1,15 +1,15 @@
-%global git_commit e0d10e9
+%global git_commit 893e964
 %global cluster wmeissner
 
 Name:    jffi
-Version: 1.0.2
-Release: 1.1%{?dist}
+Version: 1.0.9
+Release: 1%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
 License: LGPLv3
 URL:     http://github.com/%{cluster}/%{name}
-Source0: %{url}/tarball/%{version}/%{cluster}-%{name}-%{git_commit}.tar.gz
+Source0: https://download.github.com/%{cluster}-%{name}-%{version}-0-g%{git_commit}.tar.gz
 Patch0:  fix_dependencies_in_build_xml.patch
 Patch1:  fix_jar_dependencies.patch
 Patch2:  fix_compilation_flags.patch
@@ -89,17 +89,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{name}/
 %{_jnidir}/*
 
-%doc COPYING
-%doc COPYING.LESSER
-
 %files javadoc
 %defattr(-,root,root,-)
 %{_javadocdir}/jffi
 
 %changelog
-* Tue May 17 2011 Karsten Hopp <karsten@redhat.com> 1.0.2-1.1
-- change BR(check) into real buildrequirements as the latest rpm 
-  doesn't support this anymore
+* Wed Jun 01 2011  Mo Morsi <mmorsi@redhat.com> - 1.0.9-1
+- Updated to most recent upstream release
 
 * Mon Oct 25 2010  <mmorsi@redhat.com> - 1.0.2-1
 - Updated to most recent upstream release
