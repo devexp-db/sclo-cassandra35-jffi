@@ -1,8 +1,8 @@
-%global git_commit 893e964
+%global git_commit 5874d2a
 %global cluster wmeissner
 
 Name:    jffi
-Version: 1.0.9
+Version: 1.0.10
 Release: 1%{?dist}
 Summary: An optimized Java interface to libffi 
 
@@ -13,7 +13,6 @@ Source0: https://download.github.com/%{cluster}-%{name}-%{version}-0-g%{git_comm
 Patch0:  fix_dependencies_in_build_xml.patch
 Patch1:  fix_jar_dependencies.patch
 Patch2:  fix_compilation_flags.patch
-BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils
@@ -66,7 +65,6 @@ build-jar-repository -s -p lib/build_lib junit junit4
 ant
 
 %install
-rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{name}
 mkdir -p $RPM_BUILD_ROOT%{_jnidir}
 
@@ -81,19 +79,17 @@ cp -rp dist/javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/jffi
 %check
 ant test
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files
-%defattr(-,root,root,-)
 %{_libdir}/%{name}/
 %{_jnidir}/*
 
 %files javadoc
-%defattr(-,root,root,-)
 %{_javadocdir}/jffi
 
 %changelog
+* Tue Aug 02 2011  Mo Morsi <mmorsi@redhat.com> - 1.0.10-1
+- Updated to most recent upstream release
+
 * Wed Jun 01 2011  Mo Morsi <mmorsi@redhat.com> - 1.0.9-1
 - Updated to most recent upstream release
 
