@@ -3,7 +3,7 @@
 
 Name:    jffi
 Version: 1.0.10
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -87,6 +87,9 @@ ant test
 %{_javadocdir}/jffi
 
 %changelog
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
