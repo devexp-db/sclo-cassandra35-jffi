@@ -4,7 +4,7 @@
 
 Name:    jffi
 Version: 1.2.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -20,7 +20,6 @@ BuildRequires: jpackage-utils
 BuildRequires: libffi-devel
 
 BuildRequires: ant
-BuildRequires: ant-nodeps
 BuildRequires: ant-junit
 BuildRequires: junit4
 
@@ -81,6 +80,9 @@ ant -Duse.system.libffi=1 test
 %{_mavendepmapfragdir}/%{name}
 
 %changelog
+* Sun Aug 11 2013 Mat Booth <fedora@matbooth.co.uk> - 1.2.6-3
+- Remove BR on ant-nodeps, fixes FTBFS rhbz #992622
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
