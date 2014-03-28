@@ -4,7 +4,7 @@
 
 Name:    jffi
 Version: 1.2.6
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -23,7 +23,6 @@ BuildRequires: ant
 BuildRequires: ant-junit
 BuildRequires: junit4
 
-Requires: java
 Requires: jpackage-utils
 
 %description
@@ -80,6 +79,9 @@ ant -Duse.system.libffi=1 test
 %{_mavendepmapfragdir}/%{name}
 
 %changelog
+* Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 1.2.6-4
+- Use Requires: java-headless rebuild (#1067528)
+
 * Sun Aug 11 2013 Mat Booth <fedora@matbooth.co.uk> - 1.2.6-3
 - Remove BR on ant-nodeps, fixes FTBFS rhbz #992622
 
