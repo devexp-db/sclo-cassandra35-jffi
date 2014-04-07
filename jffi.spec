@@ -37,12 +37,6 @@ An optimized Java interface to libffi
 # ppc{,64} fix
 # https://bugzilla.redhat.com/show_bug.cgi?id=561448#c9
 sed -i.cpu -e '/m\$(MODEL)/d' jni/GNUmakefile libtest/GNUmakefile
-%ifnarch %{ix86} x86_64
-rm -rf test/
-%endif
-
-# remove random executable bit
-chmod 0644 jni/jffi/jffi.h
 
 # remove uneccessary directories
 rm -rf archive/* jni/libffi/ jni/win32/ lib/CopyLibs/ lib/junit*
