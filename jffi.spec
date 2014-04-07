@@ -4,7 +4,7 @@
 
 Name:    jffi
 Version: 1.2.6
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -62,9 +62,12 @@ install -pm 644 pom.xml  \
 %add_maven_depmap JPP-%{name}.pom %{name}.jar
 
 %check
+# skip tests on s390 until https://bugzilla.redhat.com/show_bug.cgi?id=1084914 is resolved
+%ifnarch s390
 # don't fail on unused parameters... (TODO: send patch upstream)
 sed -i 's|-Werror||' libtest/GNUmakefile
 ant -Duse.system.libffi=1 test
+%endif
 
 %files
 %doc COPYING.GPL COPYING.LESSER LICENSE
@@ -73,6 +76,9 @@ ant -Duse.system.libffi=1 test
 %{_mavendepmapfragdir}/%{name}
 
 %changelog
+* Mon Apr 07 2014 Dan Horák <dan[at]danny.cz> - 1.2.6-5
+- skip tests on s390 until https://bugzilla.redhat.com/show_bug.cgi?id=1084914 is resolved
+
 * Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 1.2.6-4
 - Use Requires: java-headless rebuild (#1067528)
 
