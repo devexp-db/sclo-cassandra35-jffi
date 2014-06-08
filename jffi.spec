@@ -4,7 +4,7 @@
 
 Name:    jffi
 Version: 1.2.6
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -76,6 +76,9 @@ ant -Duse.system.libffi=1 test
 %{_mavendepmapfragdir}/%{name}
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Mon Apr 07 2014 Dan Horák <dan[at]danny.cz> - 1.2.6-5
 - skip tests on s390 until https://bugzilla.redhat.com/show_bug.cgi?id=1084914 is resolved
 
