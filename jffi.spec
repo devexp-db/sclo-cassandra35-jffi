@@ -4,7 +4,7 @@
 
 Name:    jffi
 Version: 1.2.6
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -21,7 +21,7 @@ BuildRequires: libffi-devel
 
 BuildRequires: ant
 BuildRequires: ant-junit
-BuildRequires: junit4
+BuildRequires: junit
 
 Requires: jpackage-utils
 
@@ -69,13 +69,15 @@ sed -i 's|-Werror||' libtest/GNUmakefile
 ant -Duse.system.libffi=1 test
 %endif
 
-%files
+%files -f .mfiles
 %doc COPYING.GPL COPYING.LESSER LICENSE
 %{_jnidir}/%{name}.jar
 %{_mavenpomdir}/JPP-%{name}.pom
-%{_mavendepmapfragdir}/%{name}
 
 %changelog
+* Thu Jun 12 2014 Alexander Kurtakov <akurtako@redhat.com> 1.2.6-7
+- Fix FTBFS.
+
 * Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
