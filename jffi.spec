@@ -4,7 +4,7 @@
 
 Name:    jffi
 Version: 1.2.6
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
@@ -75,6 +75,9 @@ ant -Duse.system.libffi=1 test
 %{_mavenpomdir}/JPP-%{name}.pom
 
 %changelog
+* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Thu Jun 12 2014 Alexander Kurtakov <akurtako@redhat.com> 1.2.6-7
 - Fix FTBFS.
 
