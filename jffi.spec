@@ -1,16 +1,16 @@
-%global commit_hash 52af1f2
-%global tag_hash f2d7914
-%global sofile_version 1.2
+%global cluster jnr
 
 Name:    jffi
-Version: 1.2.6
-Release: 8%{?dist}
+Version: 1.2.7
+Release: 1%{?dist}
 Summary: An optimized Java interface to libffi 
 
 Group:   System Environment/Libraries
 License: LGPLv3+ or ASL 2.0
-URL:     http://github.com/jnr/%{name}/
-Source0: https://github.com/jnr/%{name}/tarball/%{version}/jnr-%{name}-%{version}-0-g%{commit_hash}.tar.gz
+URL:     http://github.com/%{cluster}/%{name}/
+
+# https://github.com/%{cluster}/%{name}/archive/%{version}.zip
+Source0: %{name}-%{version}.zip
 Patch0:  jffi-fix-dependencies-in-build-xml.patch
 Patch1:  jffi-add-built-jar-to-test-classpath.patch
 Patch2:  jffi-fix-compilation-flags.patch
@@ -29,7 +29,7 @@ Requires: jpackage-utils
 An optimized Java interface to libffi 
 
 %prep
-%setup -q -n jnr-%{name}-%{tag_hash}
+%setup
 %patch0
 %patch1
 %patch2
@@ -75,6 +75,9 @@ ant -Duse.system.libffi=1 test
 %{_mavenpomdir}/JPP-%{name}.pom
 
 %changelog
+* Fri Dec 03 2014 Mo Morsi <mmorsi@redhat.com> - 1.2.7-1
+- Update to JFFI 1.2.7
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
