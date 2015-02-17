@@ -1,32 +1,38 @@
 %global cluster jnr
 
-Name:    jffi
-Version: 1.2.7
-Release: 1%{?dist}
-Summary: An optimized Java interface to libffi 
+Name:           jffi
+Version:        1.2.7
+Release:        2%{?dist}
+Summary:        Java Foreign Function Interface
 
-Group:   System Environment/Libraries
-License: LGPLv3+ or ASL 2.0
-URL:     http://github.com/%{cluster}/%{name}/
+License:        LGPLv3+ or ASL 2.0
+URL:            http://github.com/jnr/jffi
+Source0:        https://github.com/%{cluster}/%{name}/archive/%{version}.zip
+Patch0:         jffi-fix-dependencies-in-build-xml.patch
+Patch1:         jffi-add-built-jar-to-test-classpath.patch
+Patch2:         jffi-fix-compilation-flags.patch
 
-# https://github.com/%{cluster}/%{name}/archive/%{version}.zip
-Source0: %{name}-%{version}.zip
-Patch0:  jffi-fix-dependencies-in-build-xml.patch
-Patch1:  jffi-add-built-jar-to-test-classpath.patch
-Patch2:  jffi-fix-compilation-flags.patch
-
-BuildRequires: java-devel
-BuildRequires: jpackage-utils
-BuildRequires: libffi-devel
-
-BuildRequires: ant
-BuildRequires: ant-junit
-BuildRequires: junit
-
-Requires: jpackage-utils
+BuildRequires:  maven-local
+BuildRequires:  libffi-devel
+BuildRequires:  ant
+BuildRequires:  junit
 
 %description
-An optimized Java interface to libffi 
+An optimized Java interface to libffi.
+
+%package native
+Summary:        %{name} JAR with native bits
+
+%description native
+This package contains %{name} JAR with native bits.
+
+%package javadoc
+Summary:        Javadoc for %{name}
+BuildArch:      noarch
+
+%description javadoc
+This package contains the API documentation for %{name}.
+
 
 %prep
 %setup
@@ -44,22 +50,22 @@ rm -rf archive/* jni/libffi/ jni/win32/ lib/CopyLibs/ lib/junit*
 find ./ -name '*.jar' -exec rm -f '{}' \; 
 find ./ -name '*.class' -exec rm -f '{}' \; 
 
-%build
 build-jar-repository -s -p lib/ junit
 
-ant -Duse.system.libffi=1
+%mvn_package 'com.github.jnr:jffi::native:' native
+%mvn_file ':{*}' %{name}/@1 @1
+
+%build
+# ant will produce JAR with native bits
+ant jar build-native -Duse.system.libffi=1
+
+# maven will look for JAR with native bits in archive/
+cp -p dist/jffi-*-Linux.jar archive/
+
+%mvn_build
 
 %install
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/%{name}
-mkdir -p $RPM_BUILD_ROOT%{_jnidir}/
-
-cp -p dist/%{name}-complete.jar $RPM_BUILD_ROOT%{_jnidir}/%{name}.jar
-
-install -d -m 755 $RPM_BUILD_ROOT%{_mavenpomdir}
-install -pm 644 pom.xml  \
-        $RPM_BUILD_ROOT%{_mavenpomdir}/JPP-%{name}.pom
-
-%add_maven_depmap JPP-%{name}.pom %{name}.jar
+%mvn_install
 
 %check
 # skip tests on s390 until https://bugzilla.redhat.com/show_bug.cgi?id=1084914 is resolved
@@ -71,10 +77,18 @@ ant -Duse.system.libffi=1 test
 
 %files -f .mfiles
 %doc COPYING.GPL COPYING.LESSER LICENSE
-%{_jnidir}/%{name}.jar
-%{_mavenpomdir}/JPP-%{name}.pom
+
+%files native -f .mfiles-native
+%doc COPYING.GPL COPYING.LESSER LICENSE
+
+%files javadoc -f .mfiles-javadoc
+%doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Tue Feb 17 2015 Michal Srb <msrb@redhat.com> - 1.2.7-2
+- Build jffi-native
+- Introduce javadoc subpackage
+
 * Fri Dec 03 2014 Mo Morsi <mmorsi@redhat.com> - 1.2.7-1
 - Update to JFFI 1.2.7
 
