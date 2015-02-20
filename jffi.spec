@@ -2,7 +2,7 @@
 
 Name:           jffi
 Version:        1.2.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -67,6 +67,10 @@ cp -p dist/jffi-*-Linux.jar archive/
 %install
 %mvn_install
 
+# install *.so
+install -dm 755 %{buildroot}%{_libdir}/%{name}
+cp -rp target/jni/* %{buildroot}%{_libdir}/%{name}/
+
 %check
 # skip tests on s390 until https://bugzilla.redhat.com/show_bug.cgi?id=1084914 is resolved
 %ifnarch s390
@@ -79,12 +83,16 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %files native -f .mfiles-native
+%{_libdir}/%{name}
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %files javadoc -f .mfiles-javadoc
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Fri Feb 20 2015 Michal Srb <msrb@redhat.com> - 1.2.7-3
+- Install *.so file to %{_libdir}/%{name}/
+
 * Tue Feb 17 2015 Michal Srb <msrb@redhat.com> - 1.2.7-2
 - Build jffi-native
 - Introduce javadoc subpackage
