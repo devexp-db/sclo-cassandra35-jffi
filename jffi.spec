@@ -1,8 +1,9 @@
 %global cluster jnr
+%global sover 1.2
 
 Name:           jffi
 Version:        1.2.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -70,6 +71,9 @@ cp -p dist/jffi-*-Linux.jar archive/
 # install *.so
 install -dm 755 %{buildroot}%{_libdir}/%{name}
 cp -rp target/jni/* %{buildroot}%{_libdir}/%{name}/
+# create version-less symlink for .so file
+sofile=`find %{buildroot}%{_libdir}/%{name} -name lib%{name}-%{sover}.so`
+ln -sr ${sofile} `dirname ${sofile}`/lib%{name}.so
 
 %check
 # skip tests on s390 until https://bugzilla.redhat.com/show_bug.cgi?id=1084914 is resolved
@@ -90,6 +94,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Fri Feb 20 2015 Michal Srb <msrb@redhat.com> - 1.2.7-5
+- Install version-less symlink for .so file
+
 * Fri Feb 20 2015 Michal Srb <msrb@redhat.com> - 1.2.7-4
 - Fix rpmlint warnings
 
