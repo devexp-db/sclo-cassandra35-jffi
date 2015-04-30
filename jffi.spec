@@ -2,8 +2,8 @@
 %global sover 1.2
 
 Name:           jffi
-Version:        1.2.7
-Release:        5%{?dist}
+Version:        1.2.8
+Release:        1%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -94,6 +94,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Thu Apr 30 2015 Alexander Kurtakov <akurtako@redhat.com> 1.2.8-1
+- Update to upstream 1.2.8.
+
 * Fri Feb 20 2015 Michal Srb <msrb@redhat.com> - 1.2.7-5
 - Install version-less symlink for .so file
 

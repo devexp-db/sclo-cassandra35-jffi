@@ -1,5 +1,5 @@
---- jni/GNUmakefile.orig	2011-06-02 10:36:13.003446987 -0400
-+++ jni/GNUmakefile	2011-06-02 10:38:05.176447303 -0400
+--- jni/GNUmakefile.orig	2015-03-02 23:35:21.000000000 +0200
++++ jni/GNUmakefile	2015-04-30 18:16:46.270806239 +0300
 @@ -66,9 +66,9 @@ OFLAGS = -O2 $(JFLAGS)
  # MacOS headers aren't completely warning free, so turn them off
  WERROR = -Werror
@@ -7,8 +7,8 @@
 -  WFLAGS += -Wundef $(WERROR)
 +  WFLAGS += -Wundef
  endif
--WFLAGS += -W -Wall -Wno-unused -Wno-parentheses
-+WFLAGS += -W -Wall -Wno-parentheses
+-WFLAGS += -W -Wall -Wno-unused -Wno-parentheses -Wno-unused-parameter
++WFLAGS += -W -Wall -Wno-parentheses -Wno-unused-parameter
  PICFLAGS = -fPIC
  SOFLAGS = # Filled in for each OS specifically
  FFI_MMAP_EXEC = -DFFI_MMAP_EXEC_WRIT
