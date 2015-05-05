@@ -2,7 +2,7 @@
 %global sover 1.2
 
 Name:           jffi
-Version:        1.2.8
+Version:        1.2.9
 Release:        1%{?dist}
 Summary:        Java Foreign Function Interface
 
@@ -94,6 +94,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Tue May 5 2015 Alexander Kurtakov <akurtako@redhat.com> 1.2.9-1
+- Update to upstream 1.2.9.
+
 * Thu Apr 30 2015 Alexander Kurtakov <akurtako@redhat.com> 1.2.8-1
 - Update to upstream 1.2.8.
 
