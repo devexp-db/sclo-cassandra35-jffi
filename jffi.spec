@@ -3,12 +3,13 @@
 
 Name:           jffi
 Version:        1.2.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
 URL:            http://github.com/jnr/jffi
 Source0:        https://github.com/%{cluster}/%{name}/archive/%{version}.zip
+Source1:	MANIFEST.MF
 Patch0:         jffi-fix-dependencies-in-build-xml.patch
 Patch1:         jffi-add-built-jar-to-test-classpath.patch
 Patch2:         jffi-fix-compilation-flags.patch
@@ -37,6 +38,8 @@ This package contains the API documentation for %{name}.
 
 %prep
 %setup -q
+cp %{SOURCE1} .
+sed -i -e's/@VERSION/%{version}/g' MANIFEST.MF
 %patch0
 %patch1
 %patch2
@@ -68,6 +71,8 @@ cp -p dist/jffi-*-Linux.jar archive/
 %install
 %mvn_install
 
+jar umf MANIFEST.MF %{buildroot}%{_jnidir}/%{name}/%{name}.jar
+
 # install *.so
 install -dm 755 %{buildroot}%{_libdir}/%{name}
 cp -rp target/jni/* %{buildroot}%{_libdir}/%{name}/
@@ -94,6 +99,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Thu Jun 18 2015 Jeff Johnston <jjohnstn@redhat.com> 1.2.9-3
+- Add MANIFEST.MF.
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
