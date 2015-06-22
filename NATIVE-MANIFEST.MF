@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+JavaPackages-Classifier: native
+Archiver-Version: Plexus Archiver
+JavaPackages-Version: @VERSION
+Fragment-Host: com.kenai.jffi
+Bundle-ClassPath: .,jni
+JavaPackages-ArtifactId: jffi
+JavaPackages-GroupId: com.github.jnr
+Created-By: Apache Maven 3.3.3
+Build-Jdk: 1.8.0_60
+
