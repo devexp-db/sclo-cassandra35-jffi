@@ -3,7 +3,7 @@
 
 Name:           jffi
 Version:        1.2.9
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -104,6 +104,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Wed Jun 24 2015 Jeff Johnston <jjohnstn@redhat.com> 1.2.9-6
+- Fix manifests so jffi requires com.kenai.jffi.native and native has bundle version.
+
 * Tue Jun 23 2015 Roland Grunberg <rgrunber@redhat.com> - 1.2.9-5
 - Add missing Bundle-SymbolicName attribute to manifest.
 
