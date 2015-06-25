@@ -3,7 +3,7 @@
 
 Name:           jffi
 Version:        1.2.9
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -11,6 +11,7 @@ URL:            http://github.com/jnr/jffi
 Source0:        https://github.com/%{cluster}/%{name}/archive/%{version}.zip
 Source1:	MANIFEST.MF
 Source2:	NATIVE-MANIFEST.MF
+Source3:	p2.inf
 Patch0:         jffi-fix-dependencies-in-build-xml.patch
 Patch1:         jffi-add-built-jar-to-test-classpath.patch
 Patch2:         jffi-fix-compilation-flags.patch
@@ -74,7 +75,9 @@ cp -p dist/jffi-*-Linux.jar archive/
 %install
 %mvn_install
 
-jar umf MANIFEST.MF %{buildroot}%{_jnidir}/%{name}/%{name}.jar
+mkdir -p META-INF/
+cp %{SOURCE3} META-INF/
+jar umf MANIFEST.MF %{buildroot}%{_jnidir}/%{name}/%{name}.jar META-INF/p2.inf
 
 # install *.so
 install -dm 755 %{buildroot}%{_libdir}/%{name}
@@ -104,6 +107,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Thu Jun 25 2015 Roland Grunberg <rgrunber@redhat.com> - 1.2.9-7
+- Minor fixes to manifest as we introduce p2.inf file.
+
 * Wed Jun 24 2015 Jeff Johnston <jjohnstn@redhat.com> 1.2.9-6
 - Fix manifests so jffi requires com.kenai.jffi.native and native has bundle version.
 
