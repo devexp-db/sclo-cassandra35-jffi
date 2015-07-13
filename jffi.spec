@@ -3,15 +3,15 @@
 
 Name:           jffi
 Version:        1.2.9
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
 URL:            http://github.com/jnr/jffi
 Source0:        https://github.com/%{cluster}/%{name}/archive/%{version}.zip
-Source1:	MANIFEST.MF
-Source2:	NATIVE-MANIFEST.MF
-Source3:	p2.inf
+Source1:        MANIFEST.MF
+Source2:        NATIVE-MANIFEST.MF
+Source3:        p2.inf
 Patch0:         jffi-fix-dependencies-in-build-xml.patch
 Patch1:         jffi-add-built-jar-to-test-classpath.patch
 Patch2:         jffi-fix-compilation-flags.patch
@@ -19,7 +19,7 @@ Patch2:         jffi-fix-compilation-flags.patch
 BuildRequires:  maven-local
 BuildRequires:  libffi-devel
 BuildRequires:  ant
-BuildRequires:  junit
+BuildRequires:  ant-junit
 
 %description
 An optimized Java interface to libffi.
@@ -84,6 +84,7 @@ install -dm 755 %{buildroot}%{_libdir}/%{name}
 cp -rp target/jni/* %{buildroot}%{_libdir}/%{name}/
 # create version-less symlink for .so file
 sofile=`find %{buildroot}%{_libdir}/%{name} -name lib%{name}-%{sover}.so`
+chmod +x ${sofile}
 ln -sr ${sofile} `dirname ${sofile}`/lib%{name}.so
 
 jar umf NATIVE-MANIFEST.MF %{buildroot}%{_jnidir}/%{name}/%{name}-native.jar
@@ -107,6 +108,11 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Mon Jul 13 2015 Mat Booth <mat.booth@redhat.com> - 1.2.9-8
+- Fix unstripped binaries and empty debuginfo package
+- Ensure presence of ant-junit at buildtime
+- Fixed mixed use of space and tabs
+
 * Thu Jun 25 2015 Roland Grunberg <rgrunber@redhat.com> - 1.2.9-7
 - Minor fixes to manifest as we introduce p2.inf file.
 
