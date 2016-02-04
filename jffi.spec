@@ -3,7 +3,7 @@
 
 Name:           jffi
 Version:        1.2.9
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -108,6 +108,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Mon Jul 13 2015 Mat Booth <mat.booth@redhat.com> - 1.2.9-8
 - Fix unstripped binaries and empty debuginfo package
 - Ensure presence of ant-junit at buildtime
