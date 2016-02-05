@@ -2,8 +2,8 @@
 %global sover 1.2
 
 Name:           jffi
-Version:        1.2.9
-Release:        9%{?dist}
+Version:        1.2.10
+Release:        1%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -108,6 +108,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Fri Feb 5 2016 Alexander Kurtakov <akurtako@redhat.com> 1.2.10-1
+- Update to upstream 1.2.10 release.
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
