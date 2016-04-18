@@ -2,15 +2,13 @@
 %global sover 1.2
 
 Name:           jffi
-Version:        1.2.10
+Version:        1.2.11
 Release:        1%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
 URL:            http://github.com/jnr/jffi
 Source0:        https://github.com/%{cluster}/%{name}/archive/%{version}.zip
-Source1:        MANIFEST.MF
-Source2:        NATIVE-MANIFEST.MF
 Source3:        p2.inf
 Patch0:         jffi-fix-dependencies-in-build-xml.patch
 Patch1:         jffi-add-built-jar-to-test-classpath.patch
@@ -40,10 +38,6 @@ This package contains the API documentation for %{name}.
 
 %prep
 %setup -q
-cp %{SOURCE1} .
-cp %{SOURCE2} .
-sed -i -e's/@VERSION/%{version}/g' MANIFEST.MF
-sed -i -e's/@VERSION/%{version}/g' NATIVE-MANIFEST.MF
 %patch0
 %patch1
 %patch2
@@ -77,7 +71,7 @@ cp -p dist/jffi-*-Linux.jar archive/
 
 mkdir -p META-INF/
 cp %{SOURCE3} META-INF/
-jar umf MANIFEST.MF %{buildroot}%{_jnidir}/%{name}/%{name}.jar META-INF/p2.inf
+jar uf %{buildroot}%{_jnidir}/%{name}/%{name}.jar META-INF/p2.inf
 
 # install *.so
 install -dm 755 %{buildroot}%{_libdir}/%{name}
@@ -86,8 +80,6 @@ cp -rp target/jni/* %{buildroot}%{_libdir}/%{name}/
 sofile=`find %{buildroot}%{_libdir}/%{name} -name lib%{name}-%{sover}.so`
 chmod +x ${sofile}
 ln -sr ${sofile} `dirname ${sofile}`/lib%{name}.so
-
-jar umf NATIVE-MANIFEST.MF %{buildroot}%{_jnidir}/%{name}/%{name}-native.jar
 
 %check
 # skip tests on s390 until https://bugzilla.redhat.com/show_bug.cgi?id=1084914 is resolved
@@ -108,6 +100,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Mon Apr 18 2016 Alexander Kurtakov <akurtako@redhat.com> 1.2.11-1
+- Update to upstream 1.2.11 release containing OSGification.
+
 * Fri Feb 5 2016 Alexander Kurtakov <akurtako@redhat.com> 1.2.10-1
 - Update to upstream 1.2.10 release.
 
