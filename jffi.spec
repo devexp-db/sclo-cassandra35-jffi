@@ -3,7 +3,7 @@
 
 Name:           jffi
 Version:        1.2.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -100,6 +100,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Tue Apr 19 2016 Roland Grunberg <rgrunber@redhat.com> - 1.2.11-2
+- Fragment bundle com.kenai.jffi.native is now com.github.jnr.jffi.native.
+
 * Mon Apr 18 2016 Alexander Kurtakov <akurtako@redhat.com> 1.2.11-1
 - Update to upstream 1.2.11 release containing OSGification.
 
