@@ -3,7 +3,7 @@
 
 Name:           jffi
 Version:        1.2.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -77,9 +77,10 @@ jar uf %{buildroot}%{_jnidir}/%{name}/%{name}.jar META-INF/p2.inf
 install -dm 755 %{buildroot}%{_libdir}/%{name}
 cp -rp target/jni/* %{buildroot}%{_libdir}/%{name}/
 # create version-less symlink for .so file
-sofile=`find %{buildroot}%{_libdir}/%{name} -name lib%{name}-%{sover}.so`
-chmod +x ${sofile}
-ln -sr ${sofile} `dirname ${sofile}`/lib%{name}.so
+pushd %{buildroot}%{_libdir}/%{name}/*
+chmod +x lib%{name}-%{sover}.so
+ln -s lib%{name}-%{sover}.so lib%{name}.so
+popd
 
 %check
 # skip tests on s390 until https://bugzilla.redhat.com/show_bug.cgi?id=1084914 is resolved
@@ -100,6 +101,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Fri Jul 22 2016 Mat Booth <mat.booth@redhat.com> - 1.2.12-2
+- Avoid use of ln -r since it is not available on EL6
+
 * Thu May 19 2016 Alexander Kurtakov <akurtako@redhat.com> 1.2.12-1
 - Update to upstream 1.2.12 release.
 
