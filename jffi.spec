@@ -3,7 +3,7 @@
 
 Name:           jffi
 Version:        1.2.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -15,6 +15,11 @@ Patch1:         jffi-add-built-jar-to-test-classpath.patch
 Patch2:         jffi-fix-compilation-flags.patch
 
 BuildRequires:  maven-local
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-assembly-plugin)
+BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 BuildRequires:  libffi-devel
 BuildRequires:  ant
 BuildRequires:  ant-junit
@@ -101,6 +106,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Sat Jul 23 2016 Mat Booth <mat.booth@redhat.com> - 1.2.12-3
+- Add missing BRs
+
 * Fri Jul 22 2016 Mat Booth <mat.booth@redhat.com> - 1.2.12-2
 - Avoid use of ln -r since it is not available on EL6
 
