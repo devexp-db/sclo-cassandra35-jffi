@@ -3,7 +3,7 @@
 
 Name:           jffi
 Version:        1.2.12
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -14,6 +14,8 @@ Patch0:         jffi-fix-dependencies-in-build-xml.patch
 Patch1:         jffi-add-built-jar-to-test-classpath.patch
 Patch2:         jffi-fix-compilation-flags.patch
 
+BuildRequires:  gcc
+BuildRequires:  make
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
@@ -106,6 +108,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Wed Feb  1 2017 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.2.12-4
+- Add missing build-requires on GCC
+
 * Sat Jul 23 2016 Mat Booth <mat.booth@redhat.com> - 1.2.12-3
 - Add missing BRs
 
