@@ -3,7 +3,7 @@
 
 Name:           jffi
 Version:        1.2.12
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Java Foreign Function Interface
 
 License:        LGPLv3+ or ASL 2.0
@@ -108,6 +108,9 @@ ant -Duse.system.libffi=1 test
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.12-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Wed Feb  1 2017 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.2.12-4
 - Add missing build-requires on GCC
 
