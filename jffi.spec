@@ -1,50 +1,53 @@
+%{?scl:%scl_package jffi}
+%{!?scl:%global pkg_name %{name}}
+
 %global cluster jnr
 %global sover 1.2
 
-Name:           jffi
-Version:        1.2.12
-Release:        5%{?dist}
-Summary:        Java Foreign Function Interface
+Name:		%{?scl_prefix}jffi
+Version:	1.2.12
+Release:	6%{?dist}
+Summary:	Java Foreign Function Interface
 
-License:        LGPLv3+ or ASL 2.0
-URL:            http://github.com/jnr/jffi
-Source0:        https://github.com/%{cluster}/%{name}/archive/%{name}-%{version}.tar.gz
-Source3:        p2.inf
-Patch0:         jffi-fix-dependencies-in-build-xml.patch
-Patch1:         jffi-add-built-jar-to-test-classpath.patch
-Patch2:         jffi-fix-compilation-flags.patch
+License:	LGPLv3+ or ASL 2.0
+URL:		http://github.com/jnr/jffi
+Source0:	https://github.com/%{cluster}/%{pkg_name}/archive/%{pkg_name}-%{version}.tar.gz
+Source3:	p2.inf
+Patch0:		%{pkg_name}-fix-dependencies-in-build-xml.patch
+Patch1:		%{pkg_name}-add-built-jar-to-test-classpath.patch
+Patch2:		%{pkg_name}-fix-compilation-flags.patch
 
-BuildRequires:  gcc
-BuildRequires:  make
-BuildRequires:  maven-local
-BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-assembly-plugin)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
-BuildRequires:  libffi-devel
-BuildRequires:  ant
-BuildRequires:  ant-junit
+BuildRequires:	gcc
+BuildRequires:	make
+BuildRequires:	libffi-devel
+BuildRequires:	%{?scl_prefix_java_common}ant
+BuildRequires:	%{?scl_prefix_java_common}ant-junit
+BuildRequires:	%{?scl_prefix_java_common}junit
+BuildRequires:	%{?scl_prefix_maven}maven-local
+BuildRequires:	%{?scl_prefix_maven}maven-plugin-bundle
+BuildRequires:	%{?scl_prefix_maven}maven-antrun-plugin
+BuildRequires:	%{?scl_prefix_maven}maven-assembly-plugin
+BuildRequires:	%{?scl_prefix_maven}sonatype-oss-parent
+%{?scl:Requires: %scl_runtime}
 
 %description
 An optimized Java interface to libffi.
 
 %package native
-Summary:        %{name} JAR with native bits
+Summary:	%{pkg_name} JAR with native bits
 
 %description native
-This package contains %{name} JAR with native bits.
+This package contains %{pkg_name} JAR with native bits.
 
 %package javadoc
-Summary:        Javadoc for %{name}
-BuildArch:      noarch
+Summary:	Javadoc for %{name}
+BuildArch:	noarch
 
 %description javadoc
 This package contains the API documentation for %{name}.
 
-
 %prep
-%setup -q -n %{name}-%{name}-%{version}
+%setup -q -n %{pkg_name}-%{pkg_name}-%{version}
 %patch0
 %patch1
 %patch2
@@ -59,12 +62,15 @@ rm -rf archive/* jni/libffi/ jni/win32/ lib/CopyLibs/ lib/junit*
 find ./ -name '*.jar' -exec rm -f '{}' \; 
 find ./ -name '*.class' -exec rm -f '{}' \; 
 
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 build-jar-repository -s -p lib/ junit
 
 %mvn_package 'com.github.jnr:jffi::native:' native
-%mvn_file ':{*}' %{name}/@1 @1
+%mvn_file ':{*}' %{pkg_name}/@1 @1
+%{?scl:EOF}
 
 %build
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 # ant will produce JAR with native bits
 ant jar build-native -Duse.system.libffi=1
 
@@ -72,21 +78,23 @@ ant jar build-native -Duse.system.libffi=1
 cp -p dist/jffi-*-Linux.jar archive/
 
 %mvn_build
+%{?scl:EOF}
 
 %install
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %mvn_install
-
 mkdir -p META-INF/
 cp %{SOURCE3} META-INF/
-jar uf %{buildroot}%{_jnidir}/%{name}/%{name}.jar META-INF/p2.inf
+jar uf %{buildroot}%{_jnidir}/%{pkg_name}/%{pkg_name}.jar META-INF/p2.inf
+%{?scl:EOF}
 
 # install *.so
-install -dm 755 %{buildroot}%{_libdir}/%{name}
-cp -rp target/jni/* %{buildroot}%{_libdir}/%{name}/
+install -dm 755 %{buildroot}%{_libdir}/%{pkg_name}
+cp -rp target/jni/* %{buildroot}%{_libdir}/%{pkg_name}/
 # create version-less symlink for .so file
-pushd %{buildroot}%{_libdir}/%{name}/*
-chmod +x lib%{name}-%{sover}.so
-ln -s lib%{name}-%{sover}.so lib%{name}.so
+pushd %{buildroot}%{_libdir}/%{pkg_name}/*
+chmod +x lib%{pkg_name}-%{sover}.so
+ln -s lib%{pkg_name}-%{sover}.so lib%{pkg_name}.so
 popd
 
 %check
@@ -94,20 +102,25 @@ popd
 %ifnarch s390
 # don't fail on unused parameters... (TODO: send patch upstream)
 sed -i 's|-Werror||' libtest/GNUmakefile
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 ant -Duse.system.libffi=1 test
+%{?scl:EOF}
 %endif
 
 %files -f .mfiles
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %files native -f .mfiles-native
-%{_libdir}/%{name}
+%{_libdir}/%{pkg_name}
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %files javadoc -f .mfiles-javadoc
 %doc COPYING.GPL COPYING.LESSER LICENSE
 
 %changelog
+* Mon Feb 13 2017 Tomas Repik <trepik@redhat.com> - 1.2.12-6
+- scl conversion
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.12-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
